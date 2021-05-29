@@ -8,13 +8,14 @@
 * by the Free Software Foundation, either version 3 of the License, or  *
 * (at your option) any later version.                                   *
 *                                                                       *
-* NOS is distributed in the hope that it will be useful,                *
+* MY SOKOBAN is distributed in the hope that it will be useful,         *
 * but WITHOUT ANY WARRANTY* without even the implied warranty of        *
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
 * GNU Lesser General Public License for more details.                   *
 *                                                                       *
 * You should have received a copy of the GNU Lesser General Public      *
-* License along with NOS.  If not, see <http://www.gnu.org/licenses/>.  *
+* License along with MY SOKOBAN.                                        *
+* If not, see <http://www.gnu.org/licenses/>.                           *
 ************************************************************************/
 
 /*@file SOKOBAN.H
@@ -88,8 +89,8 @@
     void setpal(unsigned char col, unsigned char r, unsigned char g, unsigned char b);
     void error(error_code err);
     void screen(screen_mode mode);
-    void plot_pixel(unsigned int x, unsigned int y, unsigned char col);
-    unsigned char get_pixel(unsigned int x, unsigned int y);
+    void plot_pixel(int x, int y, unsigned char col);
+    unsigned char get_pixel(int x, int y);
     void load_palette(char *fileName);
     void put_tile(char *img, int x, int y);
     void alloc_mem();

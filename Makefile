@@ -1,7 +1,7 @@
 #########################################################################
-# Copyright (C) 2021 by Ahmad Dajani                                    #
+# Copyright (C) 2020 by Ahmad Dajani                                    #
 #                                                                       #
-# This file is part of MY SOKOBAN                                       #
+# This file is part of MY SOKOBAN.                                      #
 #                                                                       #
 # MY SOKOBAN is free software: you can redistribute it and/or modify it #
 # under the terms of the GNU Lesser General Public License as published #
@@ -18,23 +18,29 @@
 # If not, see <http://www.gnu.org/licenses/>.                           #
 #########################################################################
 
-# @file .gitignore
+# @file Makefile
 # @author Ahmad Dajani <eng.adajani@gmail.com>
-# @date 24 May 2021
-# @brief File containing GIT ignore rules
+# @date 26 Jan 2021
+# @brief File containing Makefile rules to build image writer tool
+# @note The tool uses Turbo C library based on DOS (small memory model)
 
-# Backup files
-*.BAK
+TCPATH=c:\tc
+CC=tcc
+CFLAGS=-ms -g1 -j1 -c -I$(TCPATH)\include
+LD=tlink
+LDFLAGS=/L$(TCPATH)\lib
+objects=sokoban.obj
+build=bin
 
-# Linker output
-*.MAP
+sokoban.exe: clean $(objects)
+    $(LD) $(LDFLAGS) c0s.obj \
+                     $(build)\sokoban.obj, \
+                     $(build)\$@,, \
+                     cs.lib maths.lib emu.lib
 
-# Object files
-*.OBJ
+sokoban.obj: sokoban.c
+    $(CC) $(CFLAGS) -o$(build)\$@ sokoban.c
 
-#Turbo Debugger
-*.TR
-*.TD
-
-#Turbo C swap files
-*.SWP
+clean:
+    erase $(build)\sokoban.exe
+    erase $(build)\sokoban.obj

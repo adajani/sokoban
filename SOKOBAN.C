@@ -8,13 +8,14 @@
 * by the Free Software Foundation, either version 3 of the License, or  *
 * (at your option) any later version.                                   *
 *                                                                       *
-* NOS is distributed in the hope that it will be useful,                *
+* MY SOKOBAN is distributed in the hope that it will be useful,         *
 * but WITHOUT ANY WARRANTY* without even the implied warranty of        *
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
 * GNU Lesser General Public License for more details.                   *
 *                                                                       *
 * You should have received a copy of the GNU Lesser General Public      *
-* License along with NOS.  If not, see <http://www.gnu.org/licenses/>.  *
+* License along with MY SOKOBAN.                                        *
+* If not, see <http://www.gnu.org/licenses/>.                           *
 ************************************************************************/
 
 /*@file SOKOBAN.C
@@ -59,7 +60,6 @@ void main(void){
     int old_block_x, old_block_y, block_x, block_y;
     int cur_x, cur_y, tile_switch;
 
-    screen(ON);
     alloc_mem();
     load_data();
     main_menu();
@@ -187,18 +187,18 @@ void main(void){
             }
         }
 
-        wait_retrace();
         show_header();
+        wait_retrace();
     }
 }
 
 /**************************************************************************/
 void setpal(unsigned char col, unsigned char r,
             unsigned char g, unsigned char b){
-    outportb( 0x3C8, col);
-    outportb( 0x3C9, r);
-    outportb( 0x3C9, g);
-    outportb( 0x3C9, b);
+    outportb(0x3C8, col);
+    outportb(0x3C9, r);
+    outportb(0x3C9, g);
+    outportb(0x3C9, b);
 }
 
 void error(error_code err){
@@ -220,13 +220,13 @@ void screen(screen_mode mode){
     }
 }
 
-void plot_pixel(unsigned int x, unsigned int y, unsigned char col){
+void plot_pixel(int x, int y, unsigned char col){
     if(x>=0 && x<SCREEN_WIDTH && y>=0 && y<SCREEN_HEIGHT) {
         VGA_MEM[y * SCREEN_WIDTH + x] = col;
     }
 }
 
-unsigned char get_pixel(unsigned int x, unsigned int y){
+unsigned char get_pixel(int x, int y){
     if(x>=0 && x<SCREEN_WIDTH && y>=0 && y<SCREEN_HEIGHT) {
         return VGA_MEM[ y*SCREEN_WIDTH + x ];
     }
@@ -294,6 +294,8 @@ void load_data(){
     unsigned int index, tile_index, x, y, xx, yy;
     unsigned clr;
 
+    screen(ON);
+
     /*use zero pallete to make blind view of loading data*/
     load_palette("data\\zero.act");
 
@@ -326,6 +328,8 @@ void load_data(){
         }
     }
 done:
+    screen(ON);
+    load_palette("data\\game.act");
 }
 
 void put_text(char *text, int x, int y){
@@ -483,10 +487,10 @@ void init_game(){
 }
 
 void clean_screen(int tile_index){
-    int x,y;
+    register int x,y;
 
-    for(x=0; x<20; x++){
-        for(y=0; y<13; y++){
+    for(y=0; y<13; y++) {
+        for(x=0; x<20; x++) {
             put_tile(tile[tile_index], x * TILE_WIDTH, y * TILE_WIDTH);
         }
     }
@@ -499,7 +503,6 @@ void main_menu(){
     static char *menu[]={"new game", "about", "exit"};
 
 again:
-    load_palette("data\\game.act");
     clean_screen(EMPTY_CHAR);
 
     /*draw logo*/
